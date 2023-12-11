@@ -19,8 +19,11 @@
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H
-#define __MAIN_H
+#ifndef __MAIN_HPP
+#define __MAIN_HPP
+
+// ASCII string to be sent via SPI
+constexpr char SPI_TEXT[] = "Hello SPI!";
 
 #ifdef __cplusplus
 extern "C" {

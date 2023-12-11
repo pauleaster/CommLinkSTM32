@@ -21,6 +21,7 @@
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __USBH_CONF__H__
 #define __USBH_CONF__H__
+
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -29,7 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "main.h"
+#include <main.hpp>
 
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"

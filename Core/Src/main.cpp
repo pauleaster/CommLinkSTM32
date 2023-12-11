@@ -17,7 +17,7 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
+#include <main.hpp>
 #include "usb_host.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -101,6 +101,10 @@ int main(void)
   MX_SPI1_Init();
   MX_USB_HOST_Init();
   /* USER CODE BEGIN 2 */
+  
+  char txBuffer[SPI_BUFFER_SIZE] = {0};
+  char rxBuffer[SPI_BUFFER_SIZE] = {0};
+  int counter = 0;
 
   /* USER CODE END 2 */
 
@@ -108,10 +112,30 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-    MX_USB_HOST_Process();
+	  // Reset rxBuffer for each iteration
+	  memset(rxBuffer, 0, SPI_BUFFER_SIZE);
+
+	  // Prepare data to send
+	  snprintf(txBuffer, SPI_BUFFER_SIZE, "Hello SPI! %d", counter);
+
+	  // Transmit and receive data
+	  HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)txBuffer, (uint8_t*)rxBuffer, SPI_BUFFER_SIZE, HAL_MAX_DELAY);
+
+      // Compare received data with sent data
+      if (memcmp(txBuffer, rxBuffer, SPI_BUFFER_SIZE) == 0) {
+          // Data match - print 1 to console without newline
+          printf("1");
+      } else {
+          // Data mismatch - print 0 to console without newline
+          printf("0");
+      }
+		/* USER CODE END WHILE */
+		MX_USB_HOST_Process();
 
     /* USER CODE BEGIN 3 */
+    counter++;
+    // Optional: Add some delay
+    HAL_Delay(1000); // 1-second delay
   }
   /* USER CODE END 3 */
 }
@@ -364,7 +388,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
 /* USER CODE END 4 */
 
 /**
